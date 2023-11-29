@@ -3,12 +3,14 @@ from models.__init__ import CURSOR, CONN
 class Model:
     #dictionary of all instances of the class
     all = {}
-    #table name
+    #table name, to be overriden by child classes
     table = None
     #columns in the table
     columns = '(id, name, type, description)'
     #columns to be created with types for the table
     create_columns = '(id INTEGER PRIMARY KEY, name TEXT, type TEXT, description TEXT)'
+    #list of types of object, to be overriden by child classes
+    types = []
     
     @classmethod
     def create_table(cls):
@@ -21,7 +23,7 @@ class Model:
             raise Exception(f"Table not defined for this class ({cls.__name__})")
         
     @classmethod
-    def delete_table(cls):
+    def drop_table(cls):
         """Drop the table that persists objects of this class"""
         if cls.table:
             sql = f"""
