@@ -87,6 +87,31 @@ class Planet(Body):
         rows = CURSOR.fetchall()
         return [Species.instance_from_db(row) for row in rows]
     
+    def civilizations(self):
+        from models.civilization import Civilization
+        return_list = []
+        for civ in Civilization.all.values():
+            if self.id in civ.planet_ids and civ not in return_list:
+                return_list.append(civ)
+        if return_list:
+            return return_list
+        else:
+            return None
+        
+    def all_species(self):
+        from models.species import Species
+        return_list = self.native_species()
+        for civ in self.civilizations():
+            for species in civ.species():
+                if species not in return_list:
+                    return_list.append(species)
+        if return_list:
+            return return_list
+        else:
+            return None
+        
+        
+    
     # # # # # # # # # # # # # # # # # # # #
     #          Instance Properties        #
     # # # # # # # # # # # # # # # # # # # #

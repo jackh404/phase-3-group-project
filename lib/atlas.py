@@ -37,6 +37,7 @@ from helpers import (
     create_species,
     update_species,
     delete_species,
+    initialize_from_database
 )
     
     
@@ -45,6 +46,7 @@ from helpers import (
 
 
 def main():
+    initialize_from_database()
     while True:
         menu()
         choice = input("> ")
