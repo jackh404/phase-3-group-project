@@ -22,6 +22,26 @@ class Planet(Body):
         planet.save()
         return planet
     
+    @classmethod
+    def instance_from_db(cls, row):
+        """Create an instance from a row of the database"""
+        [id,name,type,description,diameter,mass,day,year,star_id] = row
+        planet = cls.all.get(id)
+        if planet:
+            planet.name = name
+            planet.type = type
+            planet.description = description
+            planet.diameter = diameter
+            planet.mass = mass
+            planet.day = day
+            planet.year = year
+            planet.star_id = star_id
+        else:
+            planet = cls(name, type, description, diameter, mass, day, year, star_id)
+            planet.id = id
+            cls.all[id] = planet
+        return planet
+    
     def __init__(self, name, type,description, diameter, mass, day, year, star_id, id=None):
         super().__init__(name, type, description, diameter, mass, id)
         self.day = day

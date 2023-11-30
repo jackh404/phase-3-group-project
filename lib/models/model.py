@@ -50,19 +50,16 @@ class Model:
     @classmethod
     def instance_from_db(cls, row):
         """Create an instance from a row of the database"""
-        name = row[1]
-        type = row[2]
-        description = row[3]
-
-        thing = cls.all.get(row[0])
+        [id,name,type,description] = row
+        thing = cls.all.get(id)
         if thing:
             thing.name = name
             thing.type = type
             thing.description = description
         else:
             thing = cls(name, type, description)
-            thing.id = row[0]
-            cls.all[row[0]] = thing
+            thing.id = id
+            cls.all[id] = thing
         return thing
     
     @classmethod
@@ -71,8 +68,7 @@ class Model:
         sql = f"""
         SELECT * FROM {cls.table};
         """
-        CURSOR.execute(sql)
-        rows = CURSOR.fetchall()
+        rows = CURSOR.execute(sql).fetchall()
         return [cls.instance_from_db(row) for row in rows]
     
     @classmethod
@@ -81,8 +77,7 @@ class Model:
         sql = f"""
         SELECT * FROM {cls.table} WHERE id = ?;
         """
-        CURSOR.execute(sql,(id,))
-        row = CURSOR.fetchone()
+        row = CURSOR.execute(sql,(id,)).fetchone()
         return cls.instance_from_db(row) if row else None
     
     @classmethod
@@ -93,8 +88,7 @@ class Model:
         sql = f"""
         SELECT * FROM {cls.table} WHERE name = ?;
         """
-        CURSOR.execute(sql,(name,))
-        row = CURSOR.fetchone()
+        row = CURSOR.execute(sql,(name,)).fetchone()
         return cls.instance_from_db(row) if row else None
     
     def __init__(self, name, type, description, id=None):

@@ -3,16 +3,38 @@ from models.__init__ import CURSOR, CONN
 from models.model import Model
 class Body(Model):
     
+    # # # # # # # # # # # # # # # # # # #
+    #          Class Properties         #
+    # # # # # # # # # # # # # # # # # # #
     all = {}
     table = None
     columns = '(name, type, description, diameter, mass)'
     create_columns = '(id INTEGER PRIMARY KEY, name TEXT, type TEXT, description TEXT, diameter REAL, mass REAL)'
     
+    # # # # # # # # # # # # # # # # # # #
+    #          Class Methods            #
+    # # # # # # # # # # # # # # # # # # #
     @classmethod
     def create(cls, name, type, description, diameter, mass):
         """Create an instance of the class and save it to the database"""
         thing = cls(name, type, description, diameter, mass)
         thing.save()
+        return thing
+    @classmethod
+    def instance_from_db(cls, row):
+        """Create an instance from a row of the database"""
+        [id,name,type,description,diameter,mass] = row
+        thing = cls.all.get(id)
+        if thing:
+            thing.name = name
+            thing.type = type
+            thing.description = description
+            thing.diameter = diameter
+            thing.mass = mass
+        else:
+            thing = cls(name, type, description, diameter, mass)
+            thing.id = id
+            cls.all[id] = thing
         return thing
     
     def __init__(self, name, type, description, diameter, mass, id=None):
@@ -20,6 +42,9 @@ class Body(Model):
         self.diameter = diameter
         self.mass = mass
         
+    # # # # # # # # # # # # # # # # # # # #
+    #          Instance Methods           #
+    # # # # # # # # # # # # # # # # # # # #
     def save(self):
         """Save current instance of the class to the database"""
         sql = f"""
@@ -40,7 +65,10 @@ class Body(Model):
         """
         CURSOR.execute(sql,(self.name, self.type, self.description, self.diameter, self.mass, self.id))
         CONN.commit()
-        
+    
+    # # # # # # # # # # # # # # # # # # # #
+    #          Instance Properties        #
+    # # # # # # # # # # # # # # # # # # # #    
     @property
     def diameter(self):
         return self._diameter

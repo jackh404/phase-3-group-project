@@ -106,6 +106,10 @@ class Civilization(Model):
     def __str__(self):
         return f'{super().__str__()}\nReligions: {self.religions}\nLanguages: {self.languages}\nSpecies: {", ".join([Species.find_by_id(x).name for x in self.species_ids])}\nPlanets: {", ".join([Planet.find_by_id(x).name for x in self.planet_ids])}'
     
+    # # # # # # # # # # # # # # # # # # # #
+    #          Instance Properties        #
+    # # # # # # # # # # # # # # # # # # # #
+    
     @property
     def species(self):
         return self._species
