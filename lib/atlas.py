@@ -8,7 +8,7 @@ from helpers import (
     create_star,
     update_star,
     delete_star,
-    list_star_planets
+    list_star_planets,
     list_planets,
     find_planet_by_type,
     find_planet_by_name,
@@ -18,7 +18,7 @@ from helpers import (
     update_planet,
     delete_planet,
     list_civilizations,
-    find_civilation_by_type,
+    find_civilization_by_type,
     find_civilization_by_name,
     find_civilization_by_id,
     find_civilization_by_species_id,
