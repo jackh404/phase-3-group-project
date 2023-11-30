@@ -77,6 +77,19 @@ class Planet(Body):
     def __str__(self):
         from models.star import Star
         return f'{super().__str__()}\nDay: {self.day} Earth days\nYear: {self.year} Earth years\nStar: {Star.find_by_id(self.star_id).name}'
+    
+    def native_species(self):
+        from models.species import Species
+        sql = f"""
+        SELECT * FROM {Species.table} WHERE home_world_id = ?;
+        """
+        CURSOR.execute(sql,(self.id,))
+        rows = CURSOR.fetchall()
+        return [Species.instance_from_db(row) for row in rows]
+    
+    # # # # # # # # # # # # # # # # # # # #
+    #          Instance Properties        #
+    # # # # # # # # # # # # # # # # # # # #
 
     @property
     def day(self):

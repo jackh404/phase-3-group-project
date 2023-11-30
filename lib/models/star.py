@@ -1,5 +1,6 @@
 from models.body import Body
 from models.__init__ import CURSOR, CONN
+
 class Star(Body):
     table = 'stars'
     types = ['red dwarf', 'red giant', 'white dwarf', 'main sequence', 'black hole', 'neutron star', 'brown dwarf','supergiant','yellow dwarf','proto','neutron','pulsar', 'other (see description)']
