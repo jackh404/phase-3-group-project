@@ -36,7 +36,3 @@ def list_stars():
 #     type = input("Enter the star type:")
 #     star = Star.find_by_type(type)
 #     print(star) if star else print(f"Star {type} not found")
-<<<<<<< HEAD
-    
-=======
->>>>>>> 52cea0b361dd7cdad98f21acac936cb5d7b2c91d
