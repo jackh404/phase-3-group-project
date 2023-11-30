@@ -1,6 +1,9 @@
 #lib/models/model.py
 from models.__init__ import CURSOR, CONN
 class Model:
+    # # # # # # # # # # # # # # # # # # #
+    #          Class Properties         #
+    # # # # # # # # # # # # # # # # # # #
     #dictionary of all instances of the class
     all = {}
     #table name, to be overriden by child classes
@@ -12,6 +15,9 @@ class Model:
     #list of types of object, to be overriden by child classes
     types = []
     
+    # # # # # # # # # # # # # # # # # # #
+    #          Class Methods            #
+    # # # # # # # # # # # # # # # # # # #
     @classmethod
     def create_table(cls):
         if cls.table:
@@ -91,6 +97,9 @@ class Model:
         row = CURSOR.fetchone()
         return cls.instance_from_db(row) if row else None
     
+    # # # # # # # # # # # # # # # # # # # #
+    #          Instance Methods           #
+    # # # # # # # # # # # # # # # # # # # #
     def save(self):
         """Save current instance of the class to the database"""
         sql = f"""

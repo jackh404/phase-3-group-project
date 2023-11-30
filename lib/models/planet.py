@@ -45,7 +45,8 @@ class Planet(Body):
         type(self).all[self.id] = self
         
     def __str__(self):
-        return f'{super().__str__()}\nDay: {self.day} Earth days\nYear: {self.year} Earth years\nStar id: {self.star_id}'
+        from models.star import Star
+        return f'{super().__str__()}\nDay: {self.day} Earth days\nYear: {self.year} Earth years\nStar: {Star.find_by_id(self.star_id).name}'
 
     @property
     def day(self):

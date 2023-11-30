@@ -43,7 +43,8 @@ class Species(Model):
         type(self).all[self.id] = self
         
     def __str__(self):
-        return f"{super().__str__()}\nHome World id: {self.home_world_id}"
+        from models.planet import Planet
+        return f"{super().__str__()}\nHome World: {Planet.find_by_id(self.home_world_id).name}"
     
     @property
     def home_world_id(self):
