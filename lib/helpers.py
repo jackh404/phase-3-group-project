@@ -32,7 +32,19 @@ def list_stars():
     for star in stars:
         print(star)
 
-# def find_star_by_type():
-#     type = input("Enter the star type:")
-#     star = Star.find_by_type(type)
-#     print(star) if star else print(f"Star {type} not found")
+def find_star_by_type():
+    type = input("Enter the star type:")
+    star = Star.find_by_type(type)
+    print(star) if star else print(f"Star {type} not found")
+
+def find
+
+
+
+
+def create_planet():
+    pname = input("Enter the name of the new planet: ")
+    ptype = input("Enter the type of the new planet: ")
+    pdescription = input("Enter the description of the new planet: ")
+    pdiameter = input("Enter the diameter of the new planet in kilometers:")
+    
