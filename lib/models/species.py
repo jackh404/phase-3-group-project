@@ -26,17 +26,17 @@ class Species(Model):
     def instance_from_db(cls, row):
         """Create an instance from a row of the database"""
         [id,name,type,description,home_world_id] = row
-        thing = cls.all.get(id)
-        if thing:
-            thing.name = name
-            thing.type = type
-            thing.description = description
-            thing.home_world_id = home_world_id
+        species = cls.all.get(id)
+        if species:
+            species.name = name
+            species.type = type
+            species.description = description
+            species.home_world_id = home_world_id
         else:
-            thing = cls(name, type, description, home_world_id)
-            thing.id = id
-            cls.all[id] = thing
-        return thing
+            species = cls(name, type, description, home_world_id)
+            species.id = id
+            cls.all[id] = species
+        return species
     
     def __init__(self, name, type, description, home_world_id, id=None):
         super().__init__(name, type, description, id)

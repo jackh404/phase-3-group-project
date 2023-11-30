@@ -50,18 +50,37 @@ class Civilization(Model):
     def instance_from_db(cls, row):
         """Create an instance from a row of the database"""
         [id,name,type,description,religions,languages] = row
-        thing = cls.all.get(id)
-        if thing:
-            thing.name = name
-            thing.type = type
-            thing.description = description
-            thing.religions = religions
-            thing.languages = languages
+        species_ids,planet_ids = cls.get_joins_from_db(id)
+        civilization = cls.all.get(id)
+        if civilization:
+            civilization.name = name
+            civilization.type = type
+            civilization.description = description
+            civilization.religions = religions
+            civilization.languages = languages
+            civilization.species_ids = species_ids
+            civilization.planet_ids = planet_ids
         else:
-            thing = cls(name, type, description, religions, languages)
-            thing.id = id
-            cls.all[id] = thing
-        return thing
+            civilization = cls(name, type, description, religions, languages, species_ids, planet_ids)
+            civilization.id = id
+            cls.all[id] = civilization
+        return civilization
+    
+    @classmethod
+    def get_joins_from_db(cls, civ_id):
+        """Get the join tables from the database"""
+        sql = f"""
+        SELECT species_id FROM civilizations_species WHERE civilization_id = ?;
+        """
+        CURSOR.execute(sql, (civ_id,))
+        species_ids = [row[0] for row in CURSOR.fetchall()]
+        
+        sql = f"""
+        SELECT planet_id FROM civilizations_planets WHERE civilization_id = ?;
+        """
+        CURSOR.execute(sql, (civ_id,))
+        planet_ids = [row[0] for row in CURSOR.fetchall()]
+        return species_ids, planet_ids
     
     def __init__(self, name, type, description, religions, languages, species_ids, planet_ids, id=None):
         super().__init__(name, type, description, id)
@@ -128,31 +147,22 @@ class Civilization(Model):
     # # # # # # # # # # # # # # # # # # # #
     
     @property
-    def species(self):
-        return self._species
-    @species.setter
-    def species(self, value):
-        if not isinstance(value, list) or not all(isinstance(x, Species) for x in value):
-            raise TypeError("Species must be a list of Species objects")
-        self._species = value
+    def species_ids(self):
+        return self._species_ids
+    @species_ids.setter
+    def species_ids(self, value):
+        if not isinstance(value, list) or all(not isinstance(x, int) for x in value):
+            raise TypeError("Species_ids must be a list of ints")
+        self._species_ids = value
     
     @property
-    def planets(self):
-        return self._planets
-    @planets.setter
-    def planets(self, value):
-        if not isinstance(value, list) or not all(isinstance(x, Planet) for x in value):
-            raise TypeError("Planets must be a list of Planet objects")
-        self._planets = value
-    
-    @property
-    def religions(self):
-        return self._religions
-    @religions.setter
-    def religions(self, value):
-        if not isinstance(value, str) or not len(value):
-            raise TypeError("Religions must be a non-empty string")
-        self._religions = value
+    def planet_ids(self):
+        return self._planet_ids
+    @planet_ids.setter
+    def planet_ids(self, value):
+        if not isinstance(value, list) or all(not isinstance(x, int) for x in value):
+            raise TypeError("Planet_ids must be a list of ints")
+        self._planet_ids = value
         
     @property
     def languages(self):
