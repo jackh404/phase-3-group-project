@@ -43,24 +43,24 @@ class Model:
     @classmethod
     def create(cls, name, type, description):
         """Create an instance of the class and save it to the database"""
-        thing = cls(name, type, description)
-        thing.save()
-        return thing
+        model = cls(name, type, description)
+        model.save()
+        return model
     
     @classmethod
     def instance_from_db(cls, row):
         """Create an instance from a row of the database"""
         [id,name,type,description] = row
-        thing = cls.all.get(id)
-        if thing:
-            thing.name = name
-            thing.type = type
-            thing.description = description
+        model = cls.all.get(id)
+        if model:
+            model.name = name
+            model.type = type
+            model.description = description
         else:
-            thing = cls(name, type, description)
-            thing.id = id
-            cls.all[id] = thing
-        return thing
+            model = cls(name, type, description)
+            model.id = id
+            cls.all[id] = model
+        return model
     
     @classmethod
     def get_all(cls):
@@ -74,6 +74,8 @@ class Model:
     @classmethod
     def find_by_id(cls, id):
         """Get an instance of the class from the database"""
+        if not isinstance(id, int):
+            raise TypeError("ID must be an integer")
         sql = f"""
         SELECT * FROM {cls.table} WHERE id = ?;
         """
@@ -90,6 +92,17 @@ class Model:
         """
         row = CURSOR.execute(sql,(name,)).fetchone()
         return cls.instance_from_db(row) if row else None
+    
+    @classmethod
+    def find_by_type(cls, type):
+        """Get an instance of the class from the database based on its type"""
+        if not isinstance(type, str) or not len(type):
+            raise TypeError("Type must be a non-empty string")
+        sql = f"""
+        SELECT * FROM {cls.table} WHERE type = ?;
+        """
+        rows = CURSOR.execute(sql,(type,)).fetchall()
+        return [cls.instance_from_db(row) for row in rows]
     
     def __init__(self, name, type, description, id=None):
         self.name = name

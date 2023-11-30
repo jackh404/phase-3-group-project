@@ -17,25 +17,25 @@ class Body(Model):
     @classmethod
     def create(cls, name, type, description, diameter, mass):
         """Create an instance of the class and save it to the database"""
-        thing = cls(name, type, description, diameter, mass)
-        thing.save()
-        return thing
+        body = cls(name, type, description, diameter, mass)
+        body.save()
+        return body
     @classmethod
     def instance_from_db(cls, row):
         """Create an instance from a row of the database"""
         [id,name,type,description,diameter,mass] = row
-        thing = cls.all.get(id)
-        if thing:
-            thing.name = name
-            thing.type = type
-            thing.description = description
-            thing.diameter = diameter
-            thing.mass = mass
+        body = cls.all.get(id)
+        if body:
+            body.name = name
+            body.type = type
+            body.description = description
+            body.diameter = diameter
+            body.mass = mass
         else:
-            thing = cls(name, type, description, diameter, mass)
-            thing.id = id
-            cls.all[id] = thing
-        return thing
+            body = cls(name, type, description, diameter, mass)
+            body.id = id
+            cls.all[id] = body
+        return body
     
     def __init__(self, name, type, description, diameter, mass, id=None):
         super().__init__(name, type, description, id)

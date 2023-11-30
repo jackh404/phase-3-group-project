@@ -70,8 +70,8 @@ class Species(Model):
     def civilizations(self):
         from models.civilization import Civilization
         return_list = []
-        for civ in Civilization.all.values():
-            if self.id in civ.species_ids and civ not in return_list:
+        for civ in Civilization.get_all():
+            if self in civ.species() and civ not in return_list:
                 return_list.append(civ)
         if return_list:
             return return_list
