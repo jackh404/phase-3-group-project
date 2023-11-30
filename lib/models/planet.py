@@ -18,9 +18,9 @@ class Planet(Body):
     @classmethod
     def create(cls, name, type, description, diameter, mass, day, year, star_id):
         """Create an instance of the class and save it to the database"""
-        thing = cls(name, type, description, diameter, mass, day, year, star_id)
-        thing.save()
-        return thing
+        planet = cls(name, type, description, diameter, mass, day, year, star_id)
+        planet.save()
+        return planet
     
     def __init__(self, name, type,description, diameter, mass, day, year, star_id, id=None):
         super().__init__(name, type, description, diameter, mass, id)
@@ -45,7 +45,7 @@ class Planet(Body):
         type(self).all[self.id] = self
         
     def __str__(self):
-        return f'{super().__str__()}\nDay: {self.day} Earth days\nYear: {self.year} Earth years\nStar: {self.star}'
+        return f'{super().__str__()}\nDay: {self.day} Earth days\nYear: {self.year} Earth years\nStar id: {self.star_id}'
 
     @property
     def day(self):
