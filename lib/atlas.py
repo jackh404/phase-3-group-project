@@ -8,32 +8,21 @@ from helpers import (
     create_star,
     update_star,
     delete_star,
-    list_star_planets
     list_planets,
     find_planet_by_type,
-    find_planet_by_name,
     find_planet_by_id,
-    find_planet_by_star_id,
     create_planet,
     update_planet,
     delete_planet,
     list_civilizations,
     find_civilation_by_type,
-    find_civilization_by_name,
     find_civilization_by_id,
-    find_civilization_by_species_id,
-    find_civilization_by_planet_id, 
-    find_civilization_by_star_id,
     create_civilization,
     update_civilization,
     delete_civilization,
-    list_civilizations_species,
     list_species,
     find_species_by_type,
     find_species_by_id,
-    find_species_by_civilization_id,
-    find_species_by_planet_id,
-    find_species_by_star_id,
     create_species,
     update_species,
     delete_species,
@@ -63,43 +52,77 @@ def main():
         elif choice == "6":
             delete_star()
         elif choice == "7":
-            list_star_planets()
-        elif choice == "8":
             list_planets()
-        elif choice == "9":
+        elif choice == "8":
             find_planet_by_type()
-        elif choice == "10":
-            find_planet_by_name()
-        elif choice == "11":
+        elif choice == "9":
             find_planet_by_id()
-        elif choice == "12":
-            find_planet_by_star_id()
-        elif choice == "13":
+        elif choice == "10":
             create_planet()
-        elif choice == "14":
+        elif choice == "11":
             update_planet()
-        elif choice == "15":
+        elif choice == "12":
             delete_planet()
-        elif choice == "16":
+        elif choice == "13":
             list_civilizations()
-        elif choice == "17":
-            find_civilization_by_type()
-        elif choice == "18":
-            find_civilization_by_name()
-        elif choice == "19":
+        elif choice == "14":
+            find_civilizations_by_type()
+        elif choice == "15":
             find_civilization_by_id()
+        elif choice == "16":
+            create_civilization()
+        elif choice == "17":
+            update_civilization()
+        elif choice == "18":
+            delete_civilization()
+        elif choice == "19":
+            list_species()
         elif choice == "20":
-            find_civilization_by_species_id()
+            find_species_by_type()
+        elif choice == "21":
+            find_species_by_id()
+        elif choice == "22":
+            create_species()
+        elif choice == "23":
+            update_species()
+        elif choice == "24":
+            delete_species()
             
             
         else:
-            print("Invalid choice")
+            print("BLACK HOLE OF NOTHINGNESS")
 
 
 def menu():
     print("Please select an option:")
-    print("0. Exit the program")
-    print("1. Some useful function")
+    print("0. Exit the astral plane")
+    print("1. List all stars")
+    print("2. Find star by type")
+    print("3. Find star by id")
+    print("4. Create new star")
+    print("5. Update star")
+    print("6. Delete star")
+    print("7. List all planets")
+    print("8. Find planet by type")
+    print("9. Find planet by id")
+    print("10. Create planet")
+    print("11. Update planet")
+    print("12. Delete planet")
+    print("13. List civilizations")
+    print("14. Find civilization by type")
+    print("15. Find civilization by id")
+    print("16. Create civilization")
+    print("17. Update civilization")
+    print("18. Delete civilization")
+    print("19. List species")
+    print("20. Find species by type")
+    print("21. Find species by id")
+    print("22. Create species")
+    print("23. Update species")
+    print("24. Delete species")
+    
+    
+          
 
 
 if __name__ == "__main__":

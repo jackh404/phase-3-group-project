@@ -7,7 +7,7 @@ def helper_1():
 
 
 def exit_program():
-    print("Goodbye!")
+    print("Exit program!")
     exit()
 
 def scan_print(s,t=0.01):
