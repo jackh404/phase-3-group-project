@@ -138,6 +138,12 @@ class Civilization(Model):
         CURSOR.execute(sql,(self.name, self.type, self.description, self.religions, self.languages, self.id))
         CONN.commit()
         self.join_tables()
+        
+    def planets(self):
+        return [Planet.find_by_id(x) for x in self.planet_ids]
+    
+    def species(self):
+        return [Species.find_by_id(x) for x in self.species_ids]
     
     def __str__(self):
         return f'{super().__str__()}\nReligions: {self.religions}\nLanguages: {self.languages}\nSpecies: {", ".join([Species.find_by_id(x).name for x in self.species_ids])}\nPlanets: {", ".join([Planet.find_by_id(x).name for x in self.planet_ids])}'

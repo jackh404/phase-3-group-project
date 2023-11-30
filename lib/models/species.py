@@ -46,7 +46,6 @@ class Species(Model):
     #          Instance Methods           #
     # # # # # # # # # # # # # # # # # # # #
     
-        
     def save(self):
         """Save current instance of the class to the database"""
         sql = f"""
@@ -67,6 +66,24 @@ class Species(Model):
         """
         CURSOR.execute(sql,(self.name, self.type, self.description, self.home_world_id, self.id))
         CONN.commit()
+        
+    def civilizations(self):
+        from models.civilization import Civilization
+        return_list = []
+        for civ in Civilization.get_all():
+            if self in civ.species() and civ not in return_list:
+                return_list.append(civ)
+        if return_list:
+            return return_list
+        else:
+            return None
+                
+    def planets(self):
+        from models.planet import Planet
+        return_list = [Planet.find_by_id(self.home_world_id)]
+        for civ in self.civilizations():
+            return_list += civ.planets()
+        return list(dict.fromkeys(return_list))
         
     def __str__(self):
         from models.planet import Planet

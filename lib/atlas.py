@@ -8,6 +8,7 @@ from helpers import (
     create_star,
     update_star,
     delete_star,
+    list_star_planets
     list_planets,
     find_planet_by_type,
     find_planet_by_id,
@@ -16,6 +17,7 @@ from helpers import (
     delete_planet,
     list_civilizations,
     find_civilation_by_type,
+    find_civilization_by_name,
     find_civilization_by_id,
     create_civilization,
     update_civilization,
@@ -26,6 +28,7 @@ from helpers import (
     create_species,
     update_species,
     delete_species,
+    initialize_from_database
 )
     
     
@@ -34,6 +37,7 @@ from helpers import (
 
 
 def main():
+    initialize_from_database()
     while True:
         menu()
         choice = input("> ")
