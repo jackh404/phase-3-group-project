@@ -44,6 +44,16 @@ class Planet(Body):
         self.id = CURSOR.lastrowid
         type(self).all[self.id] = self
         
+    def update(self):
+        """Update an instance of the class in the database"""
+        sql = f"""
+        UPDATE {self.table} 
+        SET name = ?, type = ?, description = ?, diameter = ?, mass = ?, day = ?, year = ?, star_id = ? 
+        WHERE id = ?;
+        """
+        CURSOR.execute(sql,(self.name, self.type, self.description, self.diameter, self.mass, self.day, self.year, self.star_id, self.id))
+        CONN.commit()
+        
     def __str__(self):
         from models.star import Star
         return f'{super().__str__()}\nDay: {self.day} Earth days\nYear: {self.year} Earth years\nStar: {Star.find_by_id(self.star_id).name}'

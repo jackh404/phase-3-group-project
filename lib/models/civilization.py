@@ -22,10 +22,10 @@ class Civilization(Model):
     def create_tables(cls):
         """create the table in the database corresponding to the class, then create the join tables for the class"""
         super().create_table()
-        sql = """CREATE TABLE IF NOT EXISTS civilization_species
+        sql = """CREATE TABLE IF NOT EXISTS civilizations_species
         (civilization_id INTEGER, species_id INTEGER, FOREIGN KEY(civilization_id) REFERENCES civilizations(id), FOREIGN KEY(species_id) REFERENCES species(id));"""
         CURSOR.execute(sql)
-        sql = """CREATE TABLE IF NOT EXISTS civilization_planets
+        sql = """CREATE TABLE IF NOT EXISTS civilizations_planets
         (civilization_id INTEGER, planet_id INTEGER, FOREIGN KEY(civilization_id) REFERENCES civilizations(id), FOREIGN KEY(planet_id) REFERENCES planets(id));"""
         CURSOR.execute(sql)
     
@@ -37,6 +37,7 @@ class Civilization(Model):
         CURSOR.execute(sql)
         sql = """DROP TABLE IF EXISTS civilizations_planets;"""
         CURSOR.execute(sql)
+        CONN.commit()
         
     @classmethod
     def create(cls, name, type, description, religions, languages, species_ids=[], planet_ids=[]):
@@ -68,20 +69,42 @@ class Civilization(Model):
         self.join_tables()
         
     def join_tables(self):
-        """Save the current instance's join tables to the database"""
+        """Delete potentially lingering joins and save the current instance's join tables to the database"""
         sql = f"""
-        INSERT INTO civilization_species {self.civ_species}
+        DELETE FROM civilizations_species WHERE civilization_id = ?;
+        """
+        CURSOR.execute(sql, (self.id,))
+        sql = f"""
+        DELETE FROM civilizations_planets WHERE civilization_id = ?;
+        """
+        CURSOR.execute(sql, (self.id,))
+        sql = f"""
+        INSERT INTO civilizations_species {self.civ_species}
         VALUES (?, ?);
         """
         for species_id in self.species_ids:
             CURSOR.execute(sql, (self.id, species_id))
         sql = f"""
-        INSERT INTO civilization_planets {self.civ_planets}
+        INSERT INTO civilizations_planets {self.civ_planets}
         VALUES (?, ?);
         """
         for planet_id in self.planet_ids:
             CURSOR.execute(sql, (self.id, planet_id))
         CONN.commit()
+        
+    def update(self):
+        """Update an instance of the class in the database"""
+        sql = f"""
+        UPDATE {self.table} 
+        SET name = ?, type = ?, description = ?, religions = ?, languages = ?
+        WHERE id = ?;
+        """
+        CURSOR.execute(sql,(self.name, self.type, self.description, self.religions, self.languages, self.id))
+        CONN.commit()
+        self.join_tables()
+    
+    def __str__(self):
+        return f'{super().__str__()}\nReligions: {self.religions}\nLanguages: {self.languages}\nSpecies: {", ".join([Species.find_by_id(x).name for x in self.species_ids])}\nPlanets: {", ".join([Planet.find_by_id(x).name for x in self.planet_ids])}'
     
     @property
     def species(self):

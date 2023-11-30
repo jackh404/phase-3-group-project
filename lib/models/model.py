@@ -97,6 +97,12 @@ class Model:
         row = CURSOR.fetchone()
         return cls.instance_from_db(row) if row else None
     
+    def __init__(self, name, type, description, id=None):
+        self.name = name
+        self.type = type
+        self.description = description
+        self.id = id
+        
     # # # # # # # # # # # # # # # # # # # #
     #          Instance Methods           #
     # # # # # # # # # # # # # # # # # # # #
@@ -110,17 +116,37 @@ class Model:
         CONN.commit()
         self.id = CURSOR.lastrowid
         type(self).all[self.id] = self
+        
+    def update(self):
+        """Update an instance of the class in the database"""
+        sql = f"""
+        UPDATE {self.table} 
+        SET name = ?, type = ?, description = ? 
+        WHERE id = ?;
+        """
+        CURSOR.execute(sql,(self.name, self.type, self.description, self.id))
+        CONN.commit()
     
-    def __init__(self, name, type, description, id=None):
-        self.name = name
-        self.type = type
-        self.description = description
-        self.id = id
+    def delete(self):
+        """Delete current instance of the class from the database"""
+        sql = f"""
+        DELETE FROM {self.table} 
+        WHERE id = ?;
+        """
+        CURSOR.execute(sql,(self.id,))
+        CONN.commit()
+        # Delete the dictionary entry using id as the key
+        del type(self).all[self.id]
+        # Set the id to None
+        self.id = None
     
     #Return string representation of current object. Implicitly called by print(instance)
     def __str__(self):
-        return f"Name: {self.name}\nType: {self.type}\nDescription: {self.description}"
-        
+        return f"{type(self).__name__} Name: {self.name}\nType: {self.type}\nDescription: {self.description}"
+    
+    # # # # # # # # # # # # # # # # # # # #
+    #          Instance Properties        #
+    # # # # # # # # # # # # # # # # # # # #   
     @property
     def name(self):
         return self._name
@@ -144,4 +170,6 @@ class Model:
         return self._description
     @description.setter
     def description(self, value):
+        if not isinstance(value, str) or not len(value):
+            raise TypeError("Description must be a non-empty string")
         self._description = value

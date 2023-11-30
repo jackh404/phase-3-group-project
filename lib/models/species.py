@@ -42,6 +42,16 @@ class Species(Model):
         self.id = CURSOR.lastrowid
         type(self).all[self.id] = self
         
+    def update(self):
+        """Update an instance of the class in the database"""
+        sql = f"""
+        UPDATE {self.table} 
+        SET name = ?, type = ?, description = ?, home_world_id = ? 
+        WHERE id = ?;
+        """
+        CURSOR.execute(sql,(self.name, self.type, self.description, self.home_world_id, self.id))
+        CONN.commit()
+        
     def __str__(self):
         from models.planet import Planet
         return f"{super().__str__()}\nHome World: {Planet.find_by_id(self.home_world_id).name}"

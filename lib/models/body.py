@@ -31,6 +31,16 @@ class Body(Model):
         self.id = CURSOR.lastrowid
         type(self).all[self.id] = self
         
+    def update(self):
+        """Update an instance of the class in the database"""
+        sql = f"""
+        UPDATE {self.table} 
+        SET name = ?, type = ?, description = ?, diameter = ?, mass = ? 
+        WHERE id = ?;
+        """
+        CURSOR.execute(sql,(self.name, self.type, self.description, self.diameter, self.mass, self.id))
+        CONN.commit()
+        
     @property
     def diameter(self):
         return self._diameter
