@@ -46,6 +46,23 @@ class Civilization(Model):
         civilization.save()
         return civilization
     
+    @classmethod
+    def instance_from_db(cls, row):
+        """Create an instance from a row of the database"""
+        [id,name,type,description,religions,languages] = row
+        thing = cls.all.get(id)
+        if thing:
+            thing.name = name
+            thing.type = type
+            thing.description = description
+            thing.religions = religions
+            thing.languages = languages
+        else:
+            thing = cls(name, type, description, religions, languages)
+            thing.id = id
+            cls.all[id] = thing
+        return thing
+    
     def __init__(self, name, type, description, religions, languages, species_ids, planet_ids, id=None):
         super().__init__(name, type, description, id)
         self.species_ids = species_ids
