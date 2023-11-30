@@ -6,7 +6,7 @@ class Model:
     #table name, to be overriden by child classes
     table = None
     #columns in the table
-    columns = '(id, name, type, description)'
+    columns = '(name, type, description)'
     #columns to be created with types for the table
     create_columns = '(id INTEGER PRIMARY KEY, name TEXT, type TEXT, description TEXT)'
     #list of types of object, to be overriden by child classes
@@ -125,9 +125,9 @@ class Model:
     def type(self):
         return self._type
     @type.setter
-    def type(cls, self, value):
-        if value not in cls.types:
-            raise ValueError(f"Type must be one of {cls.types}")
+    def type(self, value):
+        if value not in type(self).types:
+            raise ValueError(f"Type must be one of {type(self).types}")
         self._type = value
 
     @property

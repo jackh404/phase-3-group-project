@@ -15,4 +15,6 @@ Planet.create_table()
 Star.create_table()
 
 
-ipdb.set_trace()
+Star.create("Sol", "yellow dwarf", "A G-type main sequence star lovingly called the Sun",1392684,1988500000000000000)
+Planet.create("Earth", "terrestrial", "The only habitable planet in our solar system",12742,597200000000,1,1,1)
+#ipdb.set_trace()
