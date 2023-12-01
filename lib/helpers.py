@@ -105,11 +105,44 @@ def create_star():
                 
 
 def update_star():
+
     id_ = input("Enter the star's id: ")
-    if star := Star.find_by_id(id_):
+    if star := Star.find_by_id(int(id_)):
         try:
-            name = input("Enter the star's new name: ")
-            star.name = name 
+            ans = input("Change the star's name? (y/n): ")
+            if "y" in ans.lower():
+                name = input("Enter the star's new name: ")
+                star.name = name 
+            ans = input("Change the star type? (y/n): ")
+            if "y" in ans.lower():
+                print()
+                scan_print("Available star types:")
+                list_types(Star)
+                print()
+                input("Enter the new type number for the star: ")
+                type = Star.types[int(type)-1]
+                star.type = type
+            ans = input("Change the star's description? (y/n): ")
+            if "y" in ans.lower():
+                description = input("Enter the star's new description: ")
+            ans = input("Change the star's diameter? (y/n): ")
+            if "y" in ans.lower(): 
+                diameter = input("Enter the new diameter in kilometers: ")
+                star.diameter = diameter
+            ans = input("Change the star's mass? (y/n): ")
+            if "y" in ans.lower(): 
+                mass = input("Enter the new mass in trillions of kilograms: ")
+                star.mass = mass
+            star.update()
+            scan_print("Unleashing the star...from the dust")
+            scan_print("...\n",0.5)
+            scan_print(f"Star {name} added to star system!\n{star}")
+        except Exception as e: 
+            scan_print(f"Error: {e}")
+            print()
+            input("Press Enter to return to menu")
+            print()
+                
             type = input("Enter the new star type: ")
             star.type = type
             
@@ -166,12 +199,6 @@ def find_planet_by_id():
 
 
     
-
-    
-    
-    
-    
-
 
 def list_types(cls):
     for i, t in enumerate(cls.types):
@@ -479,19 +506,19 @@ def update_planet():
             if "y" in ans.lower():
                 description = input("Enter the new description: ")
                 planet.description = description
-            ans = input("Change the planet's diameter?")
+            ans = input("Change the planet's diameter? (y/n):")
             if "y" in ans.lower():
-                diameter = input("Enter the new diameter: ")
+                diameter = input("Enter the new diameter in kilometers: ")
                 planet.diameter = diameter
-            ans = input("Change the planet's mass?")
+            ans = input("Change the planet's mass? (y/n): ")
             if "y" in ans.lower():
                 mass = input("Enter the new mass in trillions of kilograms: ")
                 planet.mass = mass
-            ans = input("Change the planet's day length?")
+            ans = input("Change the planet's day length? (y/n): ")
             if "y" in ans.lower():
                 day = input("Enter the new day length in Earth days: ")
                 planet.day = day
-            ans = input("Change the planet's year length?")
+            ans = input("Change the planet's year length? (y/n): ")
             if "y" in ans.lower():
                 year = input("Enter the new year length in Earth years: ")
                 planet.year = year
