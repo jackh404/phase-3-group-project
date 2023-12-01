@@ -42,6 +42,26 @@ def find_star_by_id():
     print(star) if star else print(f" Star {id_} not found")
 
 def create_star():
+    star = None
+    sname = None
+    stype = None
+    sdescription = None
+    sdiameter = None
+    smass = None
+    while(not star):
+        if not sname: sname = input("Enter the name of the new star: ")
+        print()
+        scan_print("Available star types: ")
+        list_types(Star)
+        print()
+        if not stype: stype = input("Enter the type number of the new star: ")
+        stype = Star.types[int(ptype)-1]
+        if not sdescription: sdescription = input("Enter the description of the new star: ")
+        if not sdiameter: sdiameter = input("Enter the diameter of the new star in kilometers: ")
+        if not smass: smass = input("Enter the mass of the new planet in trillions of kilograms: ")
+        
+    
+    
     name = input("Enter the star's name: ")
     type = input("Enter the star type: ")
     id_ = input("Enter the star's id: ")
