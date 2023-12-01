@@ -88,7 +88,7 @@ def create_star():
         splanet = input("Enter the planet ID for the new star: ")
         try:
             star = Star.create(sname,stype,sdescription,sdiameter,smass, int(splanet))
-            scan_print(f"Star {name} created successfully!\n{star}")
+            scan_print(f"Star {star.name} created successfully!\n{star}")
         except Exception as e:
             scan_print(f"Error: {e}")
             if input("Try again? (y/n): ") =="n": 
