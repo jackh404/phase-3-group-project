@@ -3,7 +3,7 @@ from models.__init__ import CURSOR, CONN
 
 class Star(Body):
     table = 'stars'
-    types = ['star system','orange dwarf','red dwarf', 'red giant', 'white dwarf', 'main sequence', 'black hole', 'neutron star', 'brown dwarf','supergiant','yellow dwarf','proto','neutron','pulsar', 'other (see description)']
+    types = ['blue giant','star system','orange dwarf','red dwarf', 'red giant', 'white dwarf', 'main sequence', 'black hole', 'neutron star', 'brown dwarf','supergiant','yellow dwarf','proto','neutron','pulsar', 'other (see description)']
     
     def planets(self):
         from models.planet import Planet

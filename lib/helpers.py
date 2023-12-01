@@ -1,4 +1,4 @@
-# lib/helpers.py
+# lib/helpers.py 
 from models.planet import Planet
 from models.star import Star
 from models.species import Species
@@ -51,7 +51,7 @@ def initialize_from_database():
 def list_stars():
     stars = Star.get_all()
     for star in stars:
-        scan_print(f'{star}')
+        scan_print(f'{star.id}: {star.name}')
 
 def find_star_by_type():
     type = input("Enter the star type:")
@@ -60,8 +60,8 @@ def find_star_by_type():
 
 def find_star_by_id():
     id_ = input("Enter the star's id: ")
-    star = Star.find_by_id(id_)
-    print(star) if star else print(f" Star {id_} not found")
+    star = Star.find_by_id(int(id_))
+    scan_print(f'{star}') if star else print(f" Star {id_} not found")
 
 def create_star():
     star = None
@@ -81,13 +81,8 @@ def create_star():
         if not sdescription: sdescription = input("Enter the description of the new star: ")
         if not sdiameter: sdiameter = input("Enter the diameter of the new star in kilometers: ")
         if not smass: smass = input("Enter the mass of the new planet in trillions of kilograms: ")
-        print()
-        scan_print("Orbitting Planets:")
-        list_planets()
-        print()
-        splanet = input("Enter the planet ID for the new star: ")
         try:
-            star = Star.create(sname,stype,sdescription,sdiameter,smass, int(splanet))
+            star = Star.create(sname,stype,sdescription,sdiameter,smass)
             scan_print(f"Star {star.name} created successfully!\n{star}")
         except Exception as e:
             scan_print(f"Error: {e}")
@@ -107,7 +102,9 @@ def create_star():
 def update_star():
 
     id_ = input("Enter the star's id: ")
-    if star := Star.find_by_id(int(id_)):
+    id_ = int(id_)
+    if star := Star.find_by_id(id_):
+        scan_print(f'{star}')
         try:
             ans = input("Change the star's name? (y/n): ")
             if "y" in ans.lower():
@@ -119,12 +116,13 @@ def update_star():
                 scan_print("Available star types:")
                 list_types(Star)
                 print()
-                input("Enter the new type number for the star: ")
-                type = Star.types[int(type)-1]
+                typ = input("Enter the new type number for the star: ")
+                type = Star.types[int(typ)-1]
                 star.type = type
             ans = input("Change the star's description? (y/n): ")
             if "y" in ans.lower():
                 description = input("Enter the star's new description: ")
+                star.description = description
             ans = input("Change the star's diameter? (y/n): ")
             if "y" in ans.lower(): 
                 diameter = input("Enter the new diameter in kilometers: ")
@@ -159,11 +157,21 @@ def update_star():
     
 def delete_star():
     id_ = input("Enter the star's id: ")
+    try:
+        id_ = int(id_)
+    except:
+        scan_print("Error: Star ID must be an integer")
+        print()
+        input("Press Enter to return to menu")
+        print()
+        return
     if star := Star.find_by_id(id_) :
-        star.delete()
-        scan_print("Deploying black hole")
-        scan_print("...\n",0.5)
-        scan_print(f"Star {id_} deleted")
+        scan_print(f'Delete star: {star.name}? (y/n): ')
+        if "y" in input():
+            star.delete()
+            scan_print("Deploying black hole")
+            scan_print("...\n",0.5)
+            scan_print(f"Star {id_} deleted")
     else:
         scan_print("...",0.5)
         scan_print(f"Star {id_} not found")
@@ -175,6 +183,7 @@ def list_planets():
     planets = Planet.get_all()
     for planet in planets :
         scan_print(f'{planet.id}: {planet.name}')
+        
 def list_species():
     species = Species.get_all()
     for species in species :
@@ -186,20 +195,31 @@ def list_civilizations():
         scan_print(f'{civ.id}: {civ.name}')
         
 def find_planet_by_type():
-    type = input("Enter the type of planet: ")
-    planet = Planet.find_by_type(type)
-    print(planet) if planet else print(f"Planet {type} not found")
+    print()
+    scan_print("Available planet types:")
+    list_types(Planet)
+    print()
+    typ = input("Enter the type number to search: ")
+    type = Planet.types[int(typ)-1]
+    planets = Planet.find_by_type(type)
+    if planets:
+        scan_print(f"Planets of type '{type}':")
+        for planet in planets :
+            scan_print(f'{planet.id}: {planet.name}')
+    else:
+        print(f"No planets of type {type} found")
+    print()
+    input("Press Enter to return to menu")
+    print()
 
 def find_planet_by_id():
     id_ = input("Enter the planet's id: ")
     planet = Planet.find_by_id(id_)
     print(planet) if planet else print(f"Planet {id_} not found")
+    print()
+    input("Press Enter to return to menu")
+    print()
     
-    
-
-
-    
-
 def list_types(cls):
     for i, t in enumerate(cls.types):
         print(f"{i+1}. {t}")
@@ -220,8 +240,8 @@ def create_planet():
         scan_print("Available planet types:")
         list_types(Planet)
         print()
-        if not type: type = input("Enter the type number of the new planet: ")
-        ptype = Planet.types[int(ptype)-1]
+        if not type: ptype = input("Enter the type number of the new planet: ")
+        type = Planet.types[int(ptype)-1]
         if not description: description = input("Enter the description of the new planet: ")
         if not diameter: diameter = input("Enter the diameter of the new planet in kilometers: ")
         if not mass: mass = input("Enter the mass of the new planet in trillions of kilograms: ")
@@ -550,7 +570,7 @@ def delete_planet():
 def find_species_by_id():
     id_ = input("Enter the species's id: ")
     if species := Species.find_by_id(int(id_)):
-        scan_print(species)
+        scan_print(f'{species}')
     else:
         scan_print("...",0.5)
         scan_print(f"Species {id_} not found")
@@ -601,13 +621,21 @@ def update_species():
                 scan_print("Available species types:")
                 list_types(Species)
                 print()
-                input("Enter the new type number for the species: ")
+                type = input("Enter the new type number for the species: ")
                 type = Species.types[int(type)-1]
                 species.type = type
             ans = input("Change the species's description? (y/n): ")
             if "y" in ans.lower():
                 description = input("Enter the new description: ")
                 species.description = description
+            ans = input("Change the species's home world? (y/n): ")
+            if "y" in ans.lower():
+                print()
+                scan_print("Available worlds:")
+                list_planets()
+                print()
+                home_world_id = input("Enter the new home world ID: ")
+                species.home_world_id = home_world_id
             species.update()
             scan_print("Deploying CRISPR viruses")
             scan_print("...\n",0.5)
