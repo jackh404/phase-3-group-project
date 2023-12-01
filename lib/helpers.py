@@ -59,16 +59,28 @@ def create_star():
         if not sdescription: sdescription = input("Enter the description of the new star: ")
         if not sdiameter: sdiameter = input("Enter the diameter of the new star in kilometers: ")
         if not smass: smass = input("Enter the mass of the new planet in trillions of kilograms: ")
-        
-    
-    
-    name = input("Enter the star's name: ")
-    type = input("Enter the star type: ")
-    id_ = input("Enter the star's id: ")
-    try :
-        department = Star.create(name, type, id_)
-    except Exception as exc: 
-        print("SWALLOWED BY BLACKHOLE:", exc)
+        print()
+        scan_print("Orbitting Planets:")
+        list_planets()
+        print()
+        splanet = input("Enter the planet ID for the new star: ")
+        try:
+            star = Star.create(sname,stype,sdescription,sdiameter,smass, int(splanet))
+            scan_print(f"Star {name} created successfully!\n{star}")
+        except Exception as e:
+            scan_print(f"Error: {e}")
+            if input("Try again? (y/n): ") =="n": 
+                break
+            else:
+                if "Name" in e._str_(): sname = None
+                elif "Type" in e._str_():stype = None
+                elif "Description" in e._str_(): sdescription = None
+                elif "Diameter" in e._str_(): sdiameter = None
+                elif "Smass" in e._str_(): smass = None
+                star = None
+    print()
+    input("Press Enter to return to menu")
+                
 
 def update_star():
     id_ = input("Enter the star's id: ")
