@@ -157,24 +157,28 @@ class Civilization(Model):
         return self._species_ids
     @species_ids.setter
     def species_ids(self, value):
-        if not isinstance(value, list) or all(not isinstance(x, int) for x in value):
-            raise TypeError("Species_ids must be a list of ints")
-        self._species_ids = value
+        if all([num in Species.all.keys() for num in value]):
+            self._species_ids = value
+        else:
+            raise ValueError("Species_ids must be a list of valid species ids")
+        
     
     @property
     def planet_ids(self):
         return self._planet_ids
     @planet_ids.setter
     def planet_ids(self, value):
-        if not isinstance(value, list) or all(not isinstance(x, int) for x in value):
-            raise TypeError("Planet_ids must be a list of ints")
-        self._planet_ids = value
+        if all([num in Planet.all.keys() for num in value]):
+            self._planet_ids = value
+        else:
+            raise ValueError("Planet_ids must be a list of valid planet ids")
         
     @property
     def languages(self):
         return self._languages
     @languages.setter
     def languages(self, value):
-        if not isinstance(value, str) or not len(value):
-            raise TypeError("Languages must be a non-empty string")
-        self._languages = value
+        if isinstance(value, str) and len(value):
+            self._languages = value
+        else:
+            raise ValueError("Languages must be a non-empty string")

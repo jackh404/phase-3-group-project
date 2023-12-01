@@ -17,7 +17,7 @@ from helpers import (
     # list_civilizations,
     # find_civilization_by_type,
     # find_civilization_by_id,
-    # create_civilization,
+    create_civilization,
     # update_civilization,
     # delete_civilization,
     # list_species,

@@ -77,7 +77,11 @@ def delete_star():
 def list_planets():
     planets = Planet.get_all()
     for planet in planets :
-        print(planet)
+        scan_print(f'{planet.id}: {planet.name}')
+def list_species():
+    species = Species.get_all()
+    for species in species :
+        scan_print(f'{species.id}: {species.name}')
         
 def find_planet_by_type():
     type = input("Enter the type of planet: ")
@@ -100,7 +104,9 @@ def find_planet_by_id():
     
 
 
-
+def list_types(cls):
+    for i, t in enumerate(cls.types):
+        print(f"{i+1}. {t}")
 
 def create_planet():
     planet = None
@@ -147,5 +153,71 @@ def create_planet():
                 elif "Year" in e.__str__(): pyear = None
                 elif "Star" in e.__str__(): pstar = None
                 planet = None
+    print()
+    input("Press Enter to return to menu")
+    
+def create_civilization():
+    civ = None
+    name = None
+    type = None
+    description = None
+    religions = None
+    languages = None
+    species_ids = []
+    planet_ids = []
+    while(not civ):
+        if not name: name = input("Enter the name of the new civilization: ")
+        print()
+        scan_print("Available civilization types:")
+        list_types(Civilization)
+        print()
+        if not type: type = input("Enter the type number of the new civilization: ")
+        type = Civilization.types[int(type)-1]
+        if not description: description = input("Enter the description of the new civilization: ")
+        if not religions: religions = input("Enter the major religions of the new civilization separated by commas: ")
+        if not languages: languages = input("Enter the major languages of the new civilization separated by commas: ")
+        if not species_ids: 
+            while True:
+                print()
+                scan_print("Available Species:")
+                list_species()
+                print()
+                id_ = input("Enter the ID of a species in the new civilization or press Enter to continue: ")
+                if id_:
+                    id_ = int(id_)
+                    if id_ not in species_ids:
+                        species_ids.append(id_)
+                else:
+                    break
+        if not planet_ids: 
+            while True:
+                print()
+                scan_print("Available Planets:")
+                list_planets()
+                print()
+                id_ = input("Enter the ID of a planet in the new civilization or press Enter to continue: ")
+                if id_:
+                    id_ = int(id_)
+                    if id_ not in planet_ids:
+                        planet_ids.append(id_)
+                else:
+                    break
+        try:
+            civ = Civilization.create(name, type, description, religions, languages, species_ids, planet_ids)
+            scan_print(f"Civilization {name} created successfully!\n{civ}")
+        except Exception as e:
+            scan_print(f"Error: {e}")
+            if input("Try again? (y/n): ") == "n":
+                break
+            else:
+                if "Name" in e.__str__(): name = None
+                elif "Type" in e.__str__(): type = None
+                elif "Description" in e.__str__(): description = None
+                elif "Religions" in e.__str__(): religions = None
+                elif "Languages" in e.__str__(): languages = None
+                elif "Species" in e.__str__(): species_ids = []
+                elif "Planets" in e.__str__(): planet_ids = []
+                civ = None
+                
     print()
     input("Press Enter to return to menu")
