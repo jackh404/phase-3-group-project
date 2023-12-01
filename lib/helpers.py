@@ -55,7 +55,7 @@ def create_star():
         list_types(Star)
         print()
         if not stype: stype = input("Enter the type number of the new star: ")
-        stype = Star.types[int(ptype)-1]
+        stype = Star.types[int(stype)-1]
         if not sdescription: sdescription = input("Enter the description of the new star: ")
         if not sdiameter: sdiameter = input("Enter the diameter of the new star in kilometers: ")
         if not smass: smass = input("Enter the mass of the new planet in trillions of kilograms: ")
