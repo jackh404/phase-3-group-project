@@ -25,8 +25,7 @@ title_array = ["  _______      ___       __           ___        ______ ._______
 def intro():
     scan_print("Welcome to the...",0.1)
     for line in title_array:
-        print(line)
-        sleep(0.1)
+        scan_print(line,0.002)
     print()
     scan_print("Press Enter to continue")
     input()
