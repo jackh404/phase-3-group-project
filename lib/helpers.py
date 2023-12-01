@@ -32,7 +32,7 @@ def intro():
 
 
 def exit_program():
-    print("Exit the Astral Plane!")
+    scan_print("Exit the Astral Plane!")
     exit()
 
 def scan_print(s,t=0.01):
@@ -50,8 +50,8 @@ def initialize_from_database():
     
 def list_stars():
     stars = Star.get_all()
-    for stars in stars:
-        scan_print(stars)
+    for star in stars:
+        scan_print(f'{star}')
 
 def find_star_by_type():
     type = input("Enter the star type:")

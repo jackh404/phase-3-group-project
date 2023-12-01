@@ -33,7 +33,7 @@ from helpers import (
 def main():
     intro()
     while True:
-        menu()
+        top_menu()
         choice = input("> ")
         if choice == "0":
             exit_program()
@@ -91,7 +91,7 @@ def main():
             print("BLACK HOLE OF NOTHINGNESS")
 
 
-def menu():
+def top_menu():
     scan_print(
         """Please select an option:
 _________________________________________________

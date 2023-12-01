@@ -6,7 +6,6 @@ from models.species import Species
 from models.civilization import Civilization
 from models.__init__ import CONN, CURSOR
 from atlas import main
-import ipdb
 
 Planet.drop_table()
 Star.drop_table()
@@ -31,6 +30,3 @@ Species.create("Android", "synthetic", "Synthetic beings, typically with a human
 
 Civilization.create("European Union", "continental", "A group of countries on the continent of Europe", "Christianity, Judaism, Islam, Hinduism","English, Spanish, French, German, Austrian", [1], [1])
 Civilization.create("The Pact Worlds","system-wide","A group of worlds that banded together when their solar system was invaded by the Vesk","Sarenrae, Iomadae, Pharasma","Common, Castrovellian, Eoxian, Elvish", [2,3], [2,3])
-
-main()
-ipdb.set_trace()
