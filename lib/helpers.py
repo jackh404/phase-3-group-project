@@ -403,3 +403,42 @@ def delete_civilization():
     print()
     input("Press Enter to return to menu")
     print()
+    
+def find_civilization_by_name():
+    name = input("Enter the name of the civilization: ")
+    if civ := Civilization.find_by_name(name):
+        scan_print(civ)
+    else:
+        scan_print("...",0.5)
+        scan_print(f"Civilization {name} not found")
+    print()
+    input("Press Enter to return to menu")
+    print()
+    
+def find_civilization_by_type():
+    print()
+    scan_print("Available civilization types:")
+    list_types(Civilization)
+    print()
+    input("Enter the new type number for the civilization: ")
+    type = Civilization.types[int(type)-1]
+    if civs := Civilization.find_by_type(type):
+        for civ in civs:
+            scan_print(civ)
+    else:
+        scan_print("...",0.5)
+        scan_print(f"No civilizations of type {type} found")
+    print()
+    input("Press Enter to return to menu")
+    print()
+    
+def find_civilization_by_id():
+    id_ = input("Enter the civilization's id: ")
+    if civ := Civilization.find_by_id(int(id_)):
+        scan_print(civ)
+    else:
+        scan_print("...",0.5)
+        scan_print(f"Civilization {id_} not found")
+    print()
+    input("Press Enter to return to menu")
+    print()
