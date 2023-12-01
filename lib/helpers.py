@@ -214,6 +214,7 @@ def find_planet_by_type():
 
 def find_planet_by_id():
     id_ = input("Enter the planet's id: ")
+    id_ = int(id_)
     planet = Planet.find_by_id(id_)
     print(planet) if planet else print(f"Planet {id_} not found")
     print()
