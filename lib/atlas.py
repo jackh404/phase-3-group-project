@@ -24,8 +24,8 @@ from helpers import (
     find_species_by_type,
     find_species_by_id,
     create_species,
-    # update_species,
-    # delete_species,
+    update_species,
+    delete_species,
     intro,
     scan_print
 )

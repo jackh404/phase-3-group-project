@@ -590,3 +590,18 @@ def update_species():
         print()
         input("Press Enter to return to menu")
         print()
+        
+def delete_species():
+    list_species()
+    id_ = input("Enter the species's id: ")
+    if species := Species.find_by_id(int(id_)):
+        species.delete()
+        scan_print("Deploying Genophage")
+        scan_print("...\n",0.5)
+        scan_print(f"Species {id_} deleted")
+    else:
+        scan_print("...",0.5)
+        scan_print(f"Species {id_} not found")
+    print()
+    input("Press Enter to return to menu")
+    print()
