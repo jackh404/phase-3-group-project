@@ -65,13 +65,45 @@ def find_star_by_id():
     print(star) if star else print(f" Star {id_} not found")
 
 def create_star():
-    name = input("Enter the star's name: ")
-    type = input("Enter the star type: ")
-    id_ = input("Enter the star's id: ")
-    try :
-        department = Star.create(name, type, id_)
-    except Exception as exc: 
-        print("SWALLOWED BY BLACKHOLE:", exc)
+    star = None
+    sname = None
+    stype = None
+    sdescription = None
+    sdiameter = None
+    smass = None
+    while(not star):
+        if not sname: sname = input("Enter the name of the new star: ")
+        print()
+        scan_print("Available star types: ")
+        list_types(Star)
+        print()
+        if not stype: stype = input("Enter the type number of the new star: ")
+        stype = Star.types[int(stype)-1]
+        if not sdescription: sdescription = input("Enter the description of the new star: ")
+        if not sdiameter: sdiameter = input("Enter the diameter of the new star in kilometers: ")
+        if not smass: smass = input("Enter the mass of the new planet in trillions of kilograms: ")
+        print()
+        scan_print("Orbitting Planets:")
+        list_planets()
+        print()
+        splanet = input("Enter the planet ID for the new star: ")
+        try:
+            star = Star.create(sname,stype,sdescription,sdiameter,smass, int(splanet))
+            scan_print(f"Star {name} created successfully!\n{star}")
+        except Exception as e:
+            scan_print(f"Error: {e}")
+            if input("Try again? (y/n): ") =="n": 
+                break
+            else:
+                if "Name" in e._str_(): sname = None
+                elif "Type" in e._str_():stype = None
+                elif "Description" in e._str_(): sdescription = None
+                elif "Diameter" in e._str_(): sdiameter = None
+                elif "Smass" in e._str_(): smass = None
+                star = None
+    print()
+    input("Press Enter to return to menu")
+                
 
 def update_star():
     id_ = input("Enter the star's id: ")
