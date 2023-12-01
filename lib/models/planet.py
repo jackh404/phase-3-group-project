@@ -120,18 +120,28 @@ class Planet(Body):
         return self._day
     @day.setter
     def day(self, value):
-        if not isinstance(value, (int, float)) or value < 0:
-            raise TypeError("Day length, expressed in earth days, must be a positive number")
-        self._day = value
+        try:
+            value = float(value)
+        except:
+            raise TypeError("Day length, expressed in earth days, must be a number")
+        if value > 0:
+            self._day = value
+        else:
+            raise TypeError("Day length, expressed in earth days, must be positive")
 
     @property
     def year(self):
         return self._year
     @year.setter
     def year(self, value):
-        if not isinstance(value, (int, float)) or value < 0:
-            raise TypeError("Year length, expressed in earth years, must be a positive number")
-        self._year = value
+        try:
+            value = float(value)
+        except:
+            raise TypeError("Year length, expressed in earth years, must be a number")
+        if value > 0:
+            self._year = value
+        else:
+            raise TypeError("Year length, expressed in earth years, must be positive")
         
     @property
     def star_id(self):

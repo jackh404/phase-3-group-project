@@ -74,17 +74,29 @@ class Body(Model):
         return self._diameter
     @diameter.setter
     def diameter(self, value):
-        if not isinstance(value, (int, float)) or value < 0:
-            raise TypeError("Diameter must be a positive number (in km) expressed only in numeric format, ie 100000 not 1e5")
-        self._diameter = value
+        try:
+            value = float(value)
+        except:
+            raise TypeError("Diameter must be a number (in km)")
+        if value > 0:
+            self._diameter = value
+        else:
+            raise TypeError("Diameter must be positive")
+
+        
     @property
     def mass(self):
         return self._mass
     @mass.setter
     def mass(self, value):
-        if not isinstance(value, (int, float)) or value < 0:
-            raise TypeError("Mass must be a positive number (in trillions of kg) expressed only in numeric format, ie 100000 not 1e5")
-        self._mass = value
+        try:
+            value = float(value)
+        except:
+            raise TypeError("Mass must be a number (in trillion kg)")
+        if value > 0:
+            self._mass = value
+        else:
+            raise TypeError("Mass must be positive")
     
     def __str__(self):
         return f'{super().__str__()}\nDiameter: {format(self.diameter,"e")} km\nMass: {format(self.mass,"e")} trillion kg'
