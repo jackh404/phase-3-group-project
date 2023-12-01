@@ -6,7 +6,30 @@ from models.civilization import Civilization
 from time import sleep
 from sys import stdout
 
+title_string = """
+  _______      ___       __           ___        ______ .___________. __    ______         ___      .___________. __           ___           _______.
+ /  _____|    /   \     |  |         /   \      /      ||           ||  |  /      |       /   \     |           ||  |         /   \         /       |
+|  |  __     /  ^  \    |  |        /  ^  \    |  ,----'`---|  |----`|  | |  ,----'      /  ^  \    `---|  |----`|  |        /  ^  \       |   (----`
+|  | |_ |   /  /_\  \   |  |       /  /_\  \   |  |         |  |     |  | |  |          /  /_\  \       |  |     |  |       /  /_\  \       \   \    
+|  |__| |  /  _____  \  |  `----. /  _____  \  |  `----.    |  |     |  | |  `----.    /  _____  \      |  |     |  `----. /  _____  \  .----)   |   
+ \______| /__/     \__\ |_______|/__/     \__\  \______|    |__|     |__|  \______|   /__/     \__\     |__|     |_______|/__/     \__\ |_______/    
+                                                                                                                                                                                                                                                                               
+"""
+title_array = ["  _______      ___       __           ___        ______ .___________. __    ______         ___      .___________. __           ___           _______.",
+               " /  _____|    /   \     |  |         /   \      /      ||           ||  |  /      |       /   \     |           ||  |         /   \         /       |",
+               "|  |  __     /  ^  \    |  |        /  ^  \    |  ,----'`---|  |----`|  | |  ,----'      /  ^  \    `---|  |----`|  |        /  ^  \       |   (----`",
+               "|  | |_ |   /  /_\  \   |  |       /  /_\  \   |  |         |  |     |  | |  |          /  /_\  \       |  |     |  |       /  /_\  \       \   \    ",
+               "|  |__| |  /  _____  \  |  `----. /  _____  \  |  `----.    |  |     |  | |  `----.    /  _____  \      |  |     |  `----. /  _____  \  .----)   |   ",
+               " \______| /__/     \__\ |_______|/__/     \__\  \______|    |__|     |__|  \______|   /__/     \__\     |__|     |_______|/__/     \__\ |_______/    "]
 
+def intro():
+    scan_print("Welcome to the...",0.1)
+    for line in title_array:
+        print(line)
+        sleep(0.1)
+    print()
+    scan_print("Press Enter to continue")
+    input()
 
 
 def exit_program():
@@ -115,48 +138,48 @@ def list_types(cls):
 
 def create_planet():
     planet = None
-    pname = None
-    ptype = None
-    pdescription = None
-    pdiameter = None
-    pmass = None
-    pday = None
-    pyear = None
-    pstar = None
+    name = None
+    type = None
+    description = None
+    diameter = None
+    mass = None
+    day = None
+    year = None
+    star = None
     while(not planet):
-        if not pname: pname = input("Enter the name of the new planet: ")
+        if not name: name = input("Enter the name of the new planet: ")
         print()
         scan_print("Available planet types:")
         list_types(Planet)
         print()
-        if not ptype: ptype = input("Enter the type number of the new planet: ")
+        if not type: type = input("Enter the type number of the new planet: ")
         ptype = Planet.types[int(ptype)-1]
-        if not pdescription: pdescription = input("Enter the description of the new planet: ")
-        if not pdiameter: pdiameter = input("Enter the diameter of the new planet in kilometers: ")
-        if not pmass: pmass = input("Enter the mass of the new planet in trillions of kilograms: ")
-        if not pday: pday = input("Enter the day length of the new planet in Earth days: ")
-        if not pyear: pyear = input("Enter the year length of the new planet in Earth years: ")
+        if not description: description = input("Enter the description of the new planet: ")
+        if not diameter: diameter = input("Enter the diameter of the new planet in kilometers: ")
+        if not mass: mass = input("Enter the mass of the new planet in trillions of kilograms: ")
+        if not day: day = input("Enter the day length of the new planet in Earth days: ")
+        if not year: year = input("Enter the year length of the new planet in Earth years: ")
         print()
         scan_print("Available stars:")
         list_stars()
         print()
-        pstar = input("Enter the star ID of the new planet: ")
+        star = input("Enter the star ID of the new planet: ")
         try:
-            planet = Planet.create(pname, ptype, pdescription, pdiameter, pmass, pday, pyear, int(pstar))
-            scan_print(f"Planet {pname} created successfully!\n{planet}")
+            planet = Planet.create(name, type, description, diameter, mass, day, year, int(star))
+            scan_print(f"Planet {name} created successfully!\n{planet}")
         except Exception as e:
             scan_print(f"Error: {e}")
             if input("Try again? (y/n): ") == "n":
                 break
             else:
-                if "Name" in e.__str__(): pname = None
-                elif "Type" in e.__str__(): ptype = None
-                elif "Description" in e.__str__(): pdescription = None
-                elif "Diameter" in e.__str__(): pdiameter = None
-                elif "Mass" in e.__str__(): pmass = None
-                elif "Day" in e.__str__(): pday = None
-                elif "Year" in e.__str__(): pyear = None
-                elif "Star" in e.__str__(): pstar = None
+                if "Name" in e.__str__(): name = None
+                elif "Type" in e.__str__(): type = None
+                elif "Description" in e.__str__(): description = None
+                elif "Diameter" in e.__str__(): diameter = None
+                elif "Mass" in e.__str__(): mass = None
+                elif "Day" in e.__str__(): day = None
+                elif "Year" in e.__str__(): year = None
+                elif "Star" in e.__str__(): star = None
                 planet = None
     print()
     input("Press Enter to return to menu")
@@ -333,6 +356,19 @@ def update_civilization():
             print(f"Civilization {id_} not found")
     except Exception as exc:
         print("Error updating: ", exc)
+    print()
+    input("Press Enter to return to menu")
+    print()
+    
+def delete_civilization():
+    list_civilizations()
+    id_ = input("Enter the civilization's id: ")
+    if civ := Civilization.find_by_id(int(id_)):
+        civ.delete()
+        print(f"Civilization {id_} deleted")
+    else:
+        scan_print("...",0.5)
+        scan_print(f"Civilization {id_} not found")
     print()
     input("Press Enter to return to menu")
     print()

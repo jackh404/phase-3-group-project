@@ -14,7 +14,7 @@ from helpers import (
     create_planet, #Jack will work from here down V
     # update_planet,
     # delete_planet,
-    # list_civilizations,
+    list_civilizations,
     # find_civilization_by_type,
     # find_civilization_by_id,
     create_civilization,
@@ -26,9 +26,12 @@ from helpers import (
     create_species,
     # update_species,
     # delete_species,
+    intro,
+    scan_print
 )
     
 def main():
+    intro()
     while True:
         menu()
         choice = input("> ")
@@ -89,32 +92,35 @@ def main():
 
 
 def menu():
-    print("Please select an option:")
-    print("0. Exit the astral plane")
-    print("1. List all stars")
-    print("2. Find star by type")
-    print("3. Find star by id")
-    print("4. Create new star")
-    print("5. Update star")
-    print("6. Delete star")
-    print("7. List all planets")
-    print("8. Find planet by type")
-    print("9. Find planet by id")
-    print("10. Create planet")
-    print("11. Update planet")
-    print("12. Delete planet")
-    print("13. List civilizations")
-    print("14. Find civilization by type")
-    print("15. Find civilization by id")
-    print("16. Create civilization")
-    print("17. Update civilization")
-    print("18. Delete civilization")
-    print("19. List species")
-    print("20. Find species by type")
-    print("21. Find species by id")
-    print("22. Create species")
-    print("23. Update species")
-    print("24. Delete species")
+    scan_print(
+        """Please select an option:
+_________________________________________________
+0. Exit the astral plane
+1. List all stars
+2. Find star by type
+3. Find star by id
+4. Create new star
+5. Update star
+6. Delete star
+7. List all planets
+8. Find planet by type
+9. Find planet by id
+10. Create planet
+11. Update planet
+12. Delete planet
+13. List civilizations
+14. Find civilization by type
+15. Find civilization by id
+16. Create civilization
+17. Update civilization
+18. Delete civilization
+19. List species
+20. Find species by type
+21. Find species by id
+22. Create species
+23. Update species
+24. Delete species""",0.001
+    )
     
     
           
